@@ -85,7 +85,7 @@
          //Lexington Coordinates: [38.0489,-84.5025]
         var options = {
             center: [38.0489, -84.5025],
-            zoom: 13
+            zoom: 8
         }
         map = L.map(targetDiv, options);
 
@@ -102,28 +102,25 @@
         var city1Lat = 38.0489;
         var city1Lon = -84.5025;
         var city1Pop = 308428;
-        var city1Capitol = "Frankfort";
+        var city1Capitol = false;
         var state = "Kentucky";
-        console.log(city, ',', state);
-        var isCapitol = false;
+        console.log(city1Name, ',', state);
         // city 2
         var city2Name = "Louisville";
         var city2Lat = 38.2500;
         var city2Lon = -85.7667;
         var city2Pop = 253128;
-        var city2Capitol = "Frankfort";
+        var city2Capitol = false;
         var state = "Kentucky";
-        console.log(city, ',', state);
-        var isCapitol = true;
+        console.log(city2Name, ',', state);
         // city 3
         var city3Name = "Frankfort";
         var city3Lat = 38.1970;
         var city3Lon = -84.8630;
         var city3Pop = 691518;
-        var city3Capitol = "Frankfort";
+        var city3Capitol = true;
         var state = "Kentucky";
-        console.log(city, ',', state);
-        var isCapitol = true;
+        console.log(city3Name, ',', state);
         // total population
         var totalPop = city1Pop + city2Pop + city3Pop;
         console.log(totalPop);
