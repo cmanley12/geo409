@@ -62,21 +62,20 @@
 
 <body>
     <header>
-        <h1>Cameron's First Map</h1>
+        <h1>Cameron's Map of Kentucky</h1>
         <h2>Geo 409</h2>
     </header>
 
     <div id='map'></div>
 
     <footer>
-        <p class='author-info'>Map authored by Ate Poorthuis</p>
+        <p class='author-info'>Map authored by Cameron Manley</p>
         <h3>About This Map</h3>
-        <p>Another paragraph</p>
+        <p>This is the first map I have ever tried to make, so I apologize profusely if the coding is buggy. This map should show you what the populations, latitude and longitude values of certain cities in the greatest state in the United States.</p>
         <h3>Data Sources</h3>
         <a href="https://github.com/cmanley12/geo409/tree/master/task-b">The code for this map can be found here at Github</a>
         <p>Additional information about the data and map goes here.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna magna, maximus nec laoreet sit amet, dictum ultricies nibh. Ut id auctor lacus. Nam a dolor et justo luctus luctus. Duis a elit eget risus dictum vehicula id eu elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed sed enim nisl. Vestibulum commodo imperdiet lacus, sed facilisis erat placerat sit amet. Nulla consequat malesuada neque eget aliquet. Integer non convallis nisl, gravida ultrices ex. Fusce nec vestibulum elit. Sed elementum lectus ipsum, vulputate elementum ex laoreet a. Aenean eu ex varius, varius felis vitae, efficitur nulla. Quisque pretium laoreet ante, in sodales dui vehicula at. Mauris eu sem sapien.
-            <p>
+        <p>There isn't much else to say about the map at this point in time, but I was asked to keep this space open for descriptive purposes later on. When I get to that point in my learning, I'll update this so that you can read this part with a purpose.<p>
     </footer>
 
     <script>
@@ -96,9 +95,41 @@
             minZoom: 2,
             maxZoom: 18
         });
-
-        map.addLayer(tiles);
-        console.log("Hello Map");
+        // begin writing Task C here
+        
+        var city1Name = "Lexington";
+        var city1Lat = 38.0489;
+        var city1Lon = -84.5025;
+        var city1Pop = 308428;
+        var city1Capital = "Frankfort";
+        var state = "Kentucky";
+        console.log(city, ',', state);
+        var isCapital = false;
+        // city 2
+        var city2Name = "Louisville";
+        var city2Lat = 38.2500;
+        var city2Lon = -85.7667;
+        var city2Pop = 253128;
+        var city2Capital = "Frankfort";
+        var state = "Kentucky";
+        console.log(city, ',', state);
+        var isCapital = true;
+        // city 3
+        var city3Name = "Frankfort";
+        var city3Lat = 50.1167;
+        var city3Lon = 8.6833;
+        var city3Pop = 691518;
+        var city3Capital = "Frankfort";
+        var state = "Kentucky";
+        console.log(city, ',', state);
+        var isCapital = true;
+        // total population
+        var totalPop = city1Pop + city2Pop + city3Pop;
+        console.log(totalPop);
+        var averagePop = totalPop/3;
+        console.log(averagePop);
+        
+        // End writing Task C here
     </script>
     
 </body>
