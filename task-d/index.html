@@ -141,17 +141,17 @@
         var cityPops = [308428, 253128, 691518];
         console.log(cityPops);
         var cityCapitol = [false, false, true];
-         
-        for(/* add code here */) {
             
-             var popup = "<b>"+/* add code here */+"</b><br>"
-             +"<b>population</b>: "+/* add code here */;
-             
-             if(/* add code here */ == true) {
-             
-             popup += "<br>Capitol of the Commonwealth of Kentucky";
-         
-         }
+          for(var i = 0; i < cities.length; i++) {
+            
+            var popup = "<b>"+cities[i]+"</b><br>"
+                            +"<b>population</b>: "+cityPops[i];
+            if(cityCapitol[i] == true) {
+               
+                popup += "<br>Capitol of the Commonwealth of Kentucky"; 
+                
+            }   
+            
              L.marker(cityCoords[i]).addTo(map)
              .bindPopup(popup);
              }
