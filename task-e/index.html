@@ -88,21 +88,19 @@
         var louArea = 399;
         var frankArea = 14.63;
         
-        prepareData(lexArea, louArea, frankArea); // modify function call to pass 2 additional
-                              // arguments
+        prepareData(lexArea, louArea, frankArea); 
         
-        function prepareData(lexArea, louArea, frankArea) { /* include 2 more parameters here */
+        function prepareData(lexArea, louArea, frankArea) {
             
-            var cities = ["Lexington"]; /* include 2nd and 3rd city names */
+            var cities = ["Lexington", "Louisville", "Frankfort"]; 
             var cityCoords = [
-                [38.0297, -84.4947] 
-                /* include 2nd city lat/lon here */
-                /* include 3rd city lat/lon here */
-                
+                [38.0297, -84.4947],
+                [38.2500, -85.7667],
+                [38.1970, -84.8630]                
             ];
-            var cityPops = [308428]; /* include 2nd and 3rd city pops here */
+            var cityPops = [308428, 253128, 27453]; 
             
-            var cityAreas = [lexArea]; /* include 2nd and 3rd city areas */
+            var cityAreas = [lexArea, louArea,frankArea]; 
                     
             mapCities(cities, cityCoords); // modify function call to pass 2 additional
                                            // arguments
