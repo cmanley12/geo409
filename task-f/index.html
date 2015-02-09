@@ -128,8 +128,12 @@
         
             L.marker(props.coordinates).addTo(map)
                     .bindPopup(popup);
+            
+            buildPopup();
         }
-        
+        function buildPopup() {
+                console.log("HI");
+        }
         // End code for Task F
         
           
