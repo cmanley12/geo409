@@ -53,7 +53,7 @@
             color: #cc0000;
         }
         .purple {
-            color: #b6165b; 
+            color: #b90782; 
         }
         
     </style>
@@ -118,22 +118,32 @@
         ];
         
         for (var i = 0; i < cities.length; i++) {
-            console.log(cities[i]);
-            console.log(cities[i].properties);
+        //    console.log(cities[i]);
+          //  console.log(cities[i].properties);
         
             var props = cities[i].properties;
-            console.log(props);
-        
-            var popup = "I am a temporary String Value";
+          //  console.log(props);
+            
+            var popup = buildPopup(cities[i].name, props.population, props.state);
         
             L.marker(props.coordinates).addTo(map)
                     .bindPopup(popup);
-            
-            buildPopup();
         }
-        function buildPopup() {
-                console.log("HI");
+        function buildPopup(name, pop, state) {
+            if(state == "KY"){
+               var colorClass = "blue";
+            }
+            else if(state == "OH"){
+                var colorClass = "red";
+            }
+            else if (state == "IN"){
+                var colorClass = "purple";
+            }
+          
+            return "<div class='"+colorClass+"'><b>"+name+"</b><br>"+
+    "<b>Population</b>: "+pop.toLocaleString()+"<div>";
         }
+        
         // End code for Task F
         
           
