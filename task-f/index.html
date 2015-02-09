@@ -110,17 +110,24 @@
             {
                 name: "Cincinnati",
                 properties:{
-                    coordinates: [39.10, 84.52],
+                    coordinates: [39.10, -84.52],
                     population: 297517,
                     state: "OH"
                 }
             }  
         ];
+        
         for (var i = 0; i < cities.length; i++) {
             console.log(cities[i]);
             console.log(cities[i].properties);
-        var props = cities[i].properties;
+        
+            var props = cities[i].properties;
             console.log(props);
+        
+            var popup = "I am a temporary String Value";
+        
+            L.marker(props.coordinates).addTo(map)
+                    .bindPopup(popup);
         }
         
         // End code for Task F
