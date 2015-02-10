@@ -66,12 +66,20 @@
     </footer>
 
     <script>
-
+    
+    var Esri_WorldTerrain =     L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+	maxZoom: 13
+    });
     var map = L.map('map', {
         center: [40,-94],
-        zoom: 4
+        zoom: 4,
+        minZoom: 4,
+        maxZoom: 12
     });
-                
+    
+    map.addLayer(Esri_WorldTerrain);
+        
     var redIguana = L.latLng(40.7718,-111.9124);
         
     map.on('click', function(e){
