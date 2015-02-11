@@ -15,9 +15,9 @@
         body {
             margin: 0;
             padding: 0;
-            background: whitesmoke;
+            background: #c9c9d0;
             font-family: Lato, sans-serif;
-            color: #0D0000;
+            color: #fdfbfb;
         }
         header {
             padding: 6px 10%;
@@ -25,11 +25,11 @@
         h1 {
             display: inline-block;
             margin-right: 20px;
-            color: #001323;
+            color: blue;
         }
         h2 {
             display: inline-block;
-            color: #001323;
+            color: blue;
         }
         #map {
             width: 80%;
@@ -52,25 +52,27 @@
 
 <body>
     <header>
-        <h1>Map Title</h1>
-        <h2>Map Subtitle</h2>
+        <h1>Find The Iguana</h1>
+        <h2>He's "Salty"</h2>
     </header>
 
     <div id='map'></div>
 
     <footer>
-        <p>Map authored by YOUR NAME</p>
-        <p>Additional information about the data and map goes here.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna magna, maximus nec laoreet sit amet, dictum ultricies nibh. Ut id auctor lacus. Nam a dolor et justo luctus luctus. Duis a elit eget risus dictum vehicula id eu elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed sed enim nisl. Vestibulum commodo imperdiet lacus, sed facilisis erat placerat sit amet. Nulla consequat malesuada neque eget aliquet. Integer non convallis nisl, gravida ultrices ex. Fusce nec vestibulum elit. Sed elementum lectus ipsum, vulputate elementum ex laoreet a. Aenean eu ex varius, varius felis vitae, efficitur nulla. Quisque pretium laoreet ante, in sodales dui vehicula at. Mauris eu sem sapien.
+        <p>Map authored by Cameron Manley</p>
+        <p>Can you find the hidden red iguana?</p>
+        <p>Here are a few little hints, you can find him within the given bounds, but you cannot yet see him. We call him red, but no one really knows because he's not actually there. He's a figment of imagination, but the title might help you find him.
         </p>
     </footer>
 
     <script>
     
-    var Esri_WorldTerrain =     L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
-	maxZoom: 13
+    var Esri_DeLorme = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Specialty/DeLorme_World_Base_Map/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Copyright: &copy;2012 DeLorme',
+	minZoom: 4,
+	maxZoom: 12
     });
+    
     var map = L.map('map', {
         center: [40,-94],
         zoom: 4,
@@ -78,12 +80,20 @@
         maxZoom: 12
     });
     
-    map.addLayer(Esri_WorldTerrain);
+    map.addLayer(Esri_DeLorme);
         
     var redIguana = L.latLng(40.7718,-111.9124);
         
     map.on('click', function(e){
-        console.log(e.latlng);   
+        var clickSpot = e.latlng;
+        console.log(e.latlng);
+        var distance = clickSpot.distanceTo(redIguana);
+        console.log(distance, "meters");
+        var bounds = map.getBounds();
+        var bottomLeft = bounds.getSouthWest();
+        console.log(bottomLeft.lat, bottomLeft.lng);
+        var boundDistance = bottomLeft.distanceTo(redIguana);
+        console.log(boundDistance, "meters");
     });
                   
     </script>
