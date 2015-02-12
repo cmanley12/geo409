@@ -83,6 +83,9 @@
     map.addLayer(Esri_DeLorme);
         
     var redIguana = L.latLng(40.7718,-111.9124);
+//    var redIguanaMarker = L.marker(redIguana);
+//    redIguanaMarker.addTo(map); 
+        
         
     map.on('click', function(e){
         var clickSpot = e.latlng;
@@ -91,10 +94,15 @@
         console.log("You clicked", distance, "meters away from the Red Iguana");
         var bounds = map.getBounds();
         var bottomLeft = bounds.getSouthWest();
-        console.log(bottomLeft.lat, bottomLeft.lng);
+//        console.log(bottomLeft.lat, bottomLeft.lng);
         var boundDistance = bottomLeft.distanceTo(redIguana);
-        console.log("The South West corner is", boundDistance, "meters away from the Red Iguana");
-        map.setView(e.latlng, 6);
+//        console.log("The South West corner is", boundDistance, "meters away from the Red Iguana");
+        if (clickSpot.distanceTo(redIguana) <= 1000){
+            console.log("You found him!");
+        }  else {
+            console.log("Keep looking!");
+        }
+//        map.setView(e.latlng, 6);
     });
                   
     </script>
