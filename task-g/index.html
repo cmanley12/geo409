@@ -97,7 +97,7 @@
 //        console.log(bottomLeft.lat, bottomLeft.lng);
         var boundDistance = bottomLeft.distanceTo(redIguana);
 //        console.log("The South West corner is", boundDistance, "meters away from the Red Iguana");
-        if (clickSpot.distanceTo(redIguana) <= 1000){
+        if (distance <= 10000){
             console.log("You found him!");
         }  else {
             console.log("Keep looking!");
