@@ -88,12 +88,13 @@
         var clickSpot = e.latlng;
         console.log(e.latlng);
         var distance = clickSpot.distanceTo(redIguana);
-        console.log(distance, "meters");
+        console.log("You clicked", distance, "meters away from the Red Iguana");
         var bounds = map.getBounds();
         var bottomLeft = bounds.getSouthWest();
         console.log(bottomLeft.lat, bottomLeft.lng);
         var boundDistance = bottomLeft.distanceTo(redIguana);
-        console.log(boundDistance, "meters");
+        console.log("The South West corner is", boundDistance, "meters away from the Red Iguana");
+        map.setView(e.latlng, 6);
     });
                   
     </script>
