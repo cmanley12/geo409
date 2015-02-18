@@ -58,7 +58,7 @@
 
     <footer>
         
-// steps and 11 and 12 below        
+  // steps and 11 and 12 below        
         <p>Map authored by YOUR NAME</p>
         <p>Additional information about the data and map goes here.</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna magna, maximus nec laoreet sit amet, dictum ultricies nibh. Ut id auctor lacus. Nam a dolor et justo luctus luctus. Duis a elit eget risus dictum vehicula id eu elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed sed enim nisl. Vestibulum commodo imperdiet lacus, sed facilisis erat placerat sit amet. Nulla consequat malesuada neque eget aliquet. Integer non convallis nisl, gravida ultrices ex. Fusce nec vestibulum elit. Sed elementum lectus ipsum, vulputate elementum ex laoreet a. Aenean eu ex varius, varius felis vitae, efficitur nulla. Quisque pretium laoreet ante, in sodales dui vehicula at. Mauris eu sem sapien.
@@ -67,7 +67,20 @@
 
     <script>
 
- // Step 1 and 2 here
+    var Esri_DeLorme = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Specialty/DeLorme_World_Base_Map/MapServer/tile/{z}/{y}/{x}', {
+	   attribution: 'Tiles &copy; Esri &mdash; Copyright: &copy;2012 DeLorme',
+	   minZoom: 4,
+	   maxZoom: 12
+    });
+    
+    var map = L.map('map', {
+        center: [-37.8136,144.9631],
+        zoom: 4,
+        minZoom: 4,
+        maxZoom: 12
+    });
+    
+    map.addLayer(Esri_DeLorme);
         
         var iguanaZones = [
             {
@@ -155,6 +168,7 @@
                 }
             }
         ]; // end iguanaShips data
+        
         
         
 //      steps 3 here
