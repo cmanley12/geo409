@@ -170,7 +170,27 @@
         ]; // end iguanaShips data
         
         
+        var iguanaZones = L.layerGroup();
+        var iguanaOptions = {
+            color: 'red',
+            fillColor: 'green'
+        };
+        var iguanaCircle = L.circle([i], [i], properties);
+        iguanaCircle.color = 'red';
+        iguanaCircle.addTo(iguanaZones);
+        iguanaZones.addTo(map)
         
+        iguanaZones.eachLayer(function(layer) {
+            layer.on('mouseover', function(e) {
+                e.target.setStyle({
+                    color: 'yellow',
+                    fillcolor: 'black'
+                });
+            });
+            layer.on('mouseout', function(e) {
+                e.target.setStyle(iguanaOptions);
+            };
+                     
 //      steps 3 here
 //      steps 4-6  here
             
