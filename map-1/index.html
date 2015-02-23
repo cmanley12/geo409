@@ -205,15 +205,16 @@
         marker = L.marker(e.latlng);
         marker.addTo(map);
             
-            
-//              step seven here            
+//              step seven here
+        testDistance(e.latlng);
 //              step eight here
             
         });  // keep this code
         
-        function testDistance() {
-            
+        function testDistance(distance) {
+            console.log(distance);
             iguanaGroup.eachLayer(function(layer) {
+                
 //              step 9 here
 //              step 10 here
             });
