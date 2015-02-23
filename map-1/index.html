@@ -177,7 +177,7 @@
             fillColor: 'green'
         };
         
-        var iguanaMouseOver = {
+        var iguanaNotSafe = {
             color: 'yellow',
             fillColor: 'black'
         };
@@ -202,19 +202,28 @@
                 map.removeLayer(marker);
             }
 
-        marker = L.marker(e.latlng);
-        marker.addTo(map);
+            marker = L.marker(e.latlng);
+            marker.addTo(map);
             
 //              step seven here
-        testDistance(e.latlng);
+            testDistance(e.latlng);
 //              step eight here
             
         });  // keep this code
         
         function testDistance(distance) {
             console.log(distance);
-            iguanaGroup.eachLayer(function(layer) {
-                
+            iguanaLayers.eachLayer(function(layer) {
+                console.log(layer.getLatLng());
+                console.log(layer.getRadius());
+        var distanceBetween = layer.getLatLng().distanceTo(distance)-layer.getRadius();
+                console.log(distanceBetween);
+            if (distanceBetween > 2200) {
+                layer.setStyle(iguanaOptions);
+            }
+                else {
+                    layer.setStyle(iguanaNotSafe);
+                }
 //              step 9 here
 //              step 10 here
             });
