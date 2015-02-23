@@ -170,28 +170,27 @@
         ]; // end iguanaShips data
         
         
-        var iguanaZones = L.layerGroup();
+        var iguanaLayers = L.layerGroup();
+       
         var iguanaOptions = {
             color: 'red',
             fillColor: 'green'
         };
-        var iguanaCircle = L.circle(name, iguanaZones.coordinates[i], iguanaZones.properties);
-        iguanaCircle.color = 'red';
-//        iguanaCircle.addTo(iguanaZones);
-//        iguanaZones.addTo(map);
-//        
-//        iguanaZones.eachLayer(function(layer) {
-//            layer.on('mouseover', function(e) {
-//                e.target.setStyle({
-//                    color: 'yellow',
-//                    fillcolor: 'black'
-//                });
-//            });
-//            layer.on('mouseout', function(e) {
-//                e.target.setStyle(iguanaOptions);
-//            };
-//                     
-//      steps 3 here
+        
+        var iguanaMouseOver = {
+            color: 'yellow',
+            fillColor: 'black'
+        };
+        
+        for (var i = 0; i < iguanaZones.length; i++) {
+//            console.log(iguanaZones[i].coordinates);
+            var redIguanaLocation = L.latLng(iguanaZones[i].coordinates);
+            var redIguanaCircle = L.circle(redIguanaLocation, iguanaZones[i].properties.size, iguanaOptions);
+            redIguanaCircle.addTo(iguanaLayers);
+            redIguanaCircle.addTo(map);
+        }
+                   
+        
 //      steps 4-6  here
             
         var marker;  // keep this code
