@@ -212,17 +212,16 @@
         });  // keep this code
         
         function testDistance(distance) {
-            console.log(distance);
+         //   console.log(distance);
             iguanaLayers.eachLayer(function(layer) {
-                console.log(layer.getLatLng());
-                console.log(layer.getRadius());
+         //       console.log(layer.getLatLng());
+         //       console.log(layer.getRadius());
         var distanceBetween = layer.getLatLng().distanceTo(distance)-layer.getRadius();
-                console.log(distanceBetween);
+         //       console.log(distanceBetween);
             if (distanceBetween > 2200) {
                 layer.setStyle(iguanaOptions);
-            }
-                else {
-                    layer.setStyle(iguanaNotSafe);
+            } else {
+                layer.setStyle(iguanaNotSafe);
                 }
 //              step 9 here
 //              step 10 here
