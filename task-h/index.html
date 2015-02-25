@@ -104,14 +104,15 @@
         "marker-size": "medium",
         "marker-symbol": "",
         "name": "Rupp Arena",
-        "description": "Where the greatest basketball on earth is played."
+        "description": "Where the greatest basketball on earth is played.",
+        "size": 100
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
           -84.50252294540405,
           38.04940908259524
-        ]
+        ],
       }
     },
     {
@@ -121,7 +122,8 @@
         "marker-size": "medium",
         "marker-symbol": "",
         "name": "Willy T",
-        "Description": "The least productive library on earth."
+        "Description": "The least productive library on earth.",
+        "size": 100  
       },
       "geometry": {
         "type": "Point",
@@ -138,7 +140,8 @@
         "marker-size": "medium",
         "marker-symbol": "",
         "name": "University of Kentucky",
-        "description": "The most beautiful campus on earth."
+        "description": "The most beautiful campus on earth.",
+        "size": 400  
       },
       "geometry": {
         "type": "Point",
@@ -502,10 +505,36 @@
     }
   ]
 }
+        var pointOptions = {
+            color: "blue",
+        }
+        var polyOptions = {
+            color: "green"
+        }
+        var lineOptions = {
+            color: "yellow"
+        }
+            
+        var placesLeaflet = L.geoJson(lexingtonTour, {
+             pointToLayer : function(feature, latlng) {
+                 return L.circle(latlng, feature.properties.size);
+             }
+            ,
+             onEachFeature: function(feature, layer) {
+                if(feature.geometry.type == "Point") {
+                    layer.setStyle(pointOptions);
+                    layer.bindPopup(feature.properties.name)
+         }
+                if(feature.geometry.type == "Polygon") {
+                    layer.setStyle(polyOptions);
+                }
+                if(feature.geometry.type == "LineString") {
+                    layer.setStyle(lineOptions);
+                }
+        }
+    }).addTo(map);
         
         
-        var placesLeaflet = L.geoJson(lexingtonTour).addTo(map);
-          
     </script>
     
 </body>
