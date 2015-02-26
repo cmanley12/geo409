@@ -122,7 +122,7 @@
         "marker-size": "medium",
         "marker-symbol": "",
         "name": "Willy T",
-        "Description": "The least productive library on earth.",
+        "description": "The least productive library on earth.",
         "size": 100  
       },
       "geometry": {
@@ -523,10 +523,13 @@
              onEachFeature: function(feature, layer) {
                 if(feature.geometry.type == "Point") {
                     layer.setStyle(pointOptions);
-                    layer.bindPopup(feature.properties.name)
-         }
+                    var popPoint = "<h1>"+feature.properties.name+"</h1>"+"<br>"+ feature.properties.description;
+                    layer.bindPopup(popPoint);
+                }
                 if(feature.geometry.type == "Polygon") {
                     layer.setStyle(polyOptions);
+                    var popPoly = "<h1>"+feature.properties.name+"</h1>"+"<br>"+ feature.properties.description;
+                    layer.bindPopup(popPoly);
                 }
                 if(feature.geometry.type == "LineString") {
                     layer.setStyle(lineOptions);
