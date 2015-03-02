@@ -62,7 +62,7 @@
         <p></p>
     </footer>
     
-    <script src="power-plants.js"></script>
+    <script src="power-plants-assignment.js"></script>
     <script>
         
         var map = L.map('map', {
@@ -78,6 +78,28 @@
             maxZoom: 18
         });
         map.addLayer(tiles);
+        
+        plants.features.sort(function(a,b) {
+            return b.properties.capacity - a.properties.capacity;
+        });
+        
+        L.geoJson(plants, {
+            pointToLayer: function(feature,latlng) {
+                 return L.circleMarker(latlng, {
+                     color: 'orange',
+                     weight: 1,
+                     fillColor: 'yellow',
+                     fillOpacity: .8,
+                     radius: getRadius(feature.properties.capacity)
+                 });   
+            }
+        }).addTo(map);
+            
+        function getRadius(val) {
+            var radius = Math.sqrt(val/Math.PI);
+            return radius * .8;   
+        } 
+        
     </script>
     
 </body>
