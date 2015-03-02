@@ -92,13 +92,19 @@
                      fillOpacity: .8,
                      radius: getRadius(feature.properties.capacity)
                  });   
-            }
+            },
+            filter: function(feature, layer) {
+                if(feature.properties.source["Hydro"] <= 500){
+                    return feature;   
+                }
+        }
         }).addTo(map);
             
         function getRadius(val) {
             var radius = Math.sqrt(val/Math.PI);
             return radius * .8;   
         } 
+        
         
     </script>
     
