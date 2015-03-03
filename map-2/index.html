@@ -66,8 +66,8 @@
     <script>
         
         var map = L.map('map', {
-            center: [36,-94],
-            zoom: 4,
+            center: [35.2269,-80.8433],
+            zoom: 5,
         });
        
         var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', 
@@ -94,15 +94,20 @@
                  });   
             },
             filter: function(feature, layer) {
-                if(feature.properties.source["Hydro"] <= 500){
-                    return feature;   
+                var latLng = L.latLng(feature.geometry.coordinates[1],feature.geometry.coordinates[0]);
+        //        console.log(latLng);
+        //        console.log(feature);
+        //        console.log(layer);
+                if(feature.properties.source["Hydro"] <= 500 &&
+                 latLng.distanceTo(map.getCenter()) <= 400000){
+                    return feature;
                 }
         }
         }).addTo(map);
             
         function getRadius(val) {
             var radius = Math.sqrt(val/Math.PI);
-            return radius * .8;   
+            return radius;   
         } 
         
         
