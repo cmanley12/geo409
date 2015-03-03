@@ -102,6 +102,13 @@
                  latLng.distanceTo(map.getCenter()) <= 400000){
                     return feature;
                 }
+        },
+            onEachFeature: function(feature, layer) {
+                var content = "<b>"+feature.properties.plant_name+"</b><br>"+feature.properties.capacity.toLocaleString()+" MW<br>";
+                for (var fuel in feature.properties.source){
+        content+="<b>"+fuel+"</b>: "+feature.properties.source["Hydro"].toLocaleString()+" MW<br>";
+    }
+    layer.bindPopup(content);
         }
         }).addTo(map);
             
