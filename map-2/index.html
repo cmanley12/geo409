@@ -67,15 +67,15 @@
         
         var map = L.map('map', {
             center: [35.2269,-80.8433],
-            zoom: 5,
+            zoom: 6,
         });
        
         var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', 
                                          {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
             subdomains: 'abcd',
-            minZoom: 0,
-            maxZoom: 18
+            minZoom: 6,
+            maxZoom: 9
         });
         map.addLayer(tiles);
         
@@ -104,19 +104,19 @@
                 }
         },
             onEachFeature: function(feature, layer) {
-                var content = "<b>"+feature.properties.plant_name+"</b><br>"+feature.properties.capacity.toLocaleString()+" MW<br>";
+                var coords = L.latLng(feature.geometry.coordinates[1],feature.geometry.coordinates[0]);
+                var content = "<b>"+feature.properties.plant_name+"</b><br>"+feature.properties.capacity.toLocaleString()+" MW<br>"+"This plant is "+"<b>"+(coords.distanceTo(map.getCenter())/1000).toLocaleString()+" km</b>"+" from Charlotte, NC.</b><br>";
                 for (var fuel in feature.properties.source){
-        content+="<b>"+fuel+"</b>: "+feature.properties.source["Hydro"].toLocaleString()+" MW<br>";
+        content+="<b>"+fuel+"</b>: "+feature.properties.source["Hydro"].toLocaleString()+" MW</b><br>";
     }
     layer.bindPopup(content);
         }
         }).addTo(map);
             
         function getRadius(val) {
-            var radius = Math.sqrt(val/Math.PI);
+            var radius = Math.sqrt(val/Math.PI) * 1.6;
             return radius;   
         } 
-        
         
     </script>
     
