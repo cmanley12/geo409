@@ -94,22 +94,42 @@
                  });   
             },
             filter: function(feature, layer) {
+                
                 var latLng = L.latLng(feature.geometry.coordinates[1],feature.geometry.coordinates[0]);
         //        console.log(latLng);
         //        console.log(feature);
         //        console.log(layer);
+                
                 if(feature.properties.source["Hydro"] <= 500 &&
                  latLng.distanceTo(map.getCenter()) <= 400000){
                     return feature;
                 }
         },
             onEachFeature: function(feature, layer) {
+                
                 var coords = L.latLng(feature.geometry.coordinates[1],feature.geometry.coordinates[0]);
+                
                 var content = "<b>"+feature.properties.plant_name+"</b><br>"+feature.properties.capacity.toLocaleString()+" MW<br>"+"This plant is "+"<b>"+(coords.distanceTo(map.getCenter())/1000).toLocaleString()+" km</b>"+" from Charlotte, NC.</b><br>";
+                
                 for (var fuel in feature.properties.source){
         content+="<b>"+fuel+"</b>: "+feature.properties.source["Hydro"].toLocaleString()+" MW</b><br>";
     }
-    layer.bindPopup(content);
+    layer.bindPopup(content); 
+                
+                layer.on('mouseover', function() {
+                 //   console.log("hello");
+                    layer.setStyle({
+                        fillColor: "red"
+                    });
+                });
+                
+                
+                layer.on('mouseout', function() {
+                    layer.setStyle({
+                        fillColor: "yellow"
+                    });
+                });
+                
         }
         }).addTo(map);
             
