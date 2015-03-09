@@ -84,6 +84,7 @@
         });
         
         // Hydro Data
+      var hydroLayer = 
         L.geoJson(plants, {
             pointToLayer: function(feature,latlng) {
                  return L.circleMarker(latlng, {
@@ -137,6 +138,7 @@
         }).addTo(map);
         
      //Natural Gas Data   
+        var natGasLayer =
         L.geoJson(plants, {
             pointToLayer: function(feature,latlng) {
                  return L.circleMarker(latlng, {
@@ -189,6 +191,7 @@
         }).addTo(map);
         
         // Coal Data
+        var coalLayer =
         L.geoJson(plants, {
             pointToLayer: function(feature,latlng) {
                  return L.circleMarker(latlng, {
@@ -238,13 +241,19 @@
                 
         },
             
-            
         }).addTo(map);        
             
         function getRadius(val) {
             var radius = Math.sqrt(val/Math.PI);
             return radius;   
         } 
+        
+         var sourcesLayers = {
+                "Hydro": hydroLayer,
+                "Natural Gas": natGasLayer,
+                "Coal": coalLayer
+        }
+            L.control.layers(null, sourcesLayers, { collapsed:false }).addTo(map);
         
     </script>
     
