@@ -88,9 +88,9 @@
         L.geoJson(plants, {
             pointToLayer: function(feature,latlng) {
                  return L.circleMarker(latlng, {
-                     color: 'orange',
+                     color: "#3182bd",
                      weight: 1,
-                     fillColor: 'yellow',
+                     fillColor: "#3182bd",
                      fillOpacity: .8,
                      radius: getRadius(feature.properties.capacity)
                  });   
@@ -121,14 +121,14 @@
                 layer.on('mouseover', function() {
                  //   console.log("hello");
                     layer.setStyle({
-                        fillColor: "purple"
+                        fillColor: 'blue'
                     });
                 });
                 
                 
                 layer.on('mouseout', function() {
                     layer.setStyle({
-                        fillColor: "yellow"
+                        fillColor: "#3182bd"
                     });
                 });
                 
@@ -142,9 +142,9 @@
         L.geoJson(plants, {
             pointToLayer: function(feature,latlng) {
                  return L.circleMarker(latlng, {
-                     color: 'blue',
+                     color: "#9ecae1",
                      weight: 1,
-                     fillColor: 'blue',
+                     fillColor: "#9ecae1",
                      fillOpacity: .8,
                      radius: getRadius(feature.properties.capacity)
                  });   
@@ -175,13 +175,13 @@
                 layer.on('mouseover', function() {
                  //   console.log("hello");
                     layer.setStyle({
-                        fillColor: "orange"
+                        fillColor: 'blue'
                     });
                 });
                 
                  layer.on('mouseout', function() {
                     layer.setStyle({
-                        fillColor: "blue"
+                        fillColor: "#9ecae1"
                     });
                 });
                 
@@ -195,9 +195,9 @@
         L.geoJson(plants, {
             pointToLayer: function(feature,latlng) {
                  return L.circleMarker(latlng, {
-                     color: 'red',
+                     color: "#deebf7",
                      weight: 1,
-                     fillColor: 'red',
+                     fillColor: "#deebf7",
                      fillOpacity: .8,
                      radius: getRadius(feature.properties.capacity)
                  });   
@@ -228,14 +228,14 @@
                 layer.on('mouseover', function() {
                  //   console.log("hello");
                     layer.setStyle({
-                        fillColor: "green"
+                        fillColor: "blue"
                     });
                 });
                 
                 
                 layer.on('mouseout', function() {
                     layer.setStyle({
-                        fillColor: "red"
+                        fillColor: "#deebf7"
                     });
                 });
                 
