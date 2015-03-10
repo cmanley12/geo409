@@ -262,6 +262,7 @@
          
          map.on('click', function(e) {
              hydroLayer.eachLayer(function(layer) {
+                console.log(layer);
                  var distance = e.latlng.distanceTo(layer.getLatLng())/1000;
                  
                  if(distance > 500) {
@@ -274,7 +275,7 @@
                          stroke: true,
                          fill: true  
                      });  
-        //             layer.bindPopup("I am <b>"+distance.toLocaleString()+"km</b><br> from the click point.");
+                     layer.bindPopup("<b>"+layer.feature.properties.plant_name+"</b><br>"+"<b>Hydro: </b> "+layer.feature.properties.source["Hydro"].toLocaleString()+" MW<br>"+"This plant is <b>"+distance.toLocaleString()+" km</b><br> from the point you clicked.<br>");
                  } 
              });
          });
@@ -293,7 +294,7 @@
                          stroke: true,
                          fill: true  
                      });  
-        //             layer.bindPopup("I am <b>"+distance.toLocaleString()+"km</b><br> from the click point.");
+                     layer.bindPopup("<b>"+layer.feature.properties.plant_name+"</b><br>"+"<b>Natural Gas: </b> "+layer.feature.properties.source["Natural Gas"].toLocaleString()+" MW<br>"+"This plant is <b>"+distance.toLocaleString()+" km</b><br> from the point you clicked.<br>");
                  } 
              });
          });
@@ -312,7 +313,7 @@
                          stroke: true,
                          fill: true  
                      });  
-        //             layer.bindPopup("I am <b>"+distance.toLocaleString()+"km</b><br> from the click point.");
+                     layer.bindPopup("<b>"+layer.feature.properties.plant_name+"</b><br>"+"<b>Coal: </b> "+layer.feature.properties.source["Coal"].toLocaleString()+" MW<br>"+"This plant is <b>"+distance.toLocaleString()+" km</b><br> from the point you clicked.<br>");
                  } 
              });
          });
@@ -336,7 +337,7 @@
                          stroke: true,
                          fill: true  
                      });  
-        //             layer.bindPopup("I am <b>"+distance.toLocaleString()+"km</b><br> from the click point.");
+                     layer.bindPopup("<b>"+layer.feature.properties.plant_name+"</b><br>"+"<b>Hydro: </b> "+layer.feature.properties.source["Hydro"].toLocaleString()+" MW<br>"+"This plant is <b>"+distance.toLocaleString()+" km</b><br> from the point you clicked.<br>");
                  } 
              });
          });
@@ -355,7 +356,7 @@
                          stroke: true,
                          fill: true  
                      });  
-        //             layer.bindPopup("I am <b>"+distance.toLocaleString()+"km</b><br> from the click point.");
+                     layer.bindPopup("<b>"+layer.feature.properties.plant_name+"</b><br>"+"<b>Natural Gas: </b> "+layer.feature.properties.source["Natural Gas"].toLocaleString()+" MW<br>"+"This plant is <b>"+distance.toLocaleString()+" km</b><br> from the point you clicked.<br>");
                  } 
              });
          });
@@ -374,7 +375,7 @@
                          stroke: true,
                          fill: true  
                      });  
-        //             layer.bindPopup("I am <b>"+distance.toLocaleString()+"km</b><br> from the click point.");
+                     layer.bindPopup("<b>"+layer.feature.properties.plant_name+"</b><br>"+"<b>Coal: </b> "+layer.feature.properties.source["Coal"].toLocaleString()+" MW<br>"+"This plant is <b>"+distance.toLocaleString()+" km</b><br> from the point you clicked.<br>");
                  } 
              });
          });
