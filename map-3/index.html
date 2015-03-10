@@ -68,6 +68,7 @@
         var map = L.map('map', {
             center: [39.8,-98.6],
             zoom: 4,
+            doubleClickZoom: false
         });
        
         var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', 
@@ -325,6 +326,7 @@
         
         map.on('dblclick', function(e) {
              hydroLayer.eachLayer(function(layer) {
+                 
                  var distance = e.latlng.distanceTo(layer.getLatLng())/1000;
                  
                  if(distance > 200) {
@@ -379,7 +381,6 @@
                  } 
              });
          });
-        
         
         
         
