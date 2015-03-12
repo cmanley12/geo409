@@ -261,6 +261,7 @@
          // Click Event
         
          
+         var spotlightMarker;
          map.on('click', function(e) {
              hydroLayer.eachLayer(function(layer) {
                 console.log(layer);
@@ -279,6 +280,26 @@
                      layer.bindPopup("<b>"+layer.feature.properties.plant_name+"</b><br>"+"<b>Hydro: </b> "+layer.feature.properties.source["Hydro"].toLocaleString()+" MW<br>"+"This plant is <b>"+distance.toLocaleString()+" km</b><br> from the point you clicked.<br>");
                  } 
              });
+             
+             if(map.hasLayer(spotlightMarker)) {               
+                map.removeLayer(spotlightMarker);
+            }
+             
+             if(map.hasLayer(dblClickLight)) {
+                map.removeLayer(dblClickLight);
+            }
+             
+             
+             var spotlightLocation = e.latlng;
+             spotlightMarker = L.circle(spotlightLocation, 500000, {
+                 opacity: .8,
+                 color: 'white',
+                 stroke: true,
+                 fill: false
+             });
+             spotlightMarker.addTo(map);
+             spotlightMarker.bringToBack();
+             
          });
         
         map.on('click', function(e) {
@@ -298,7 +319,17 @@
                      layer.bindPopup("<b>"+layer.feature.properties.plant_name+"</b><br>"+"<b>Natural Gas: </b> "+layer.feature.properties.source["Natural Gas"].toLocaleString()+" MW<br>"+"This plant is <b>"+distance.toLocaleString()+" km</b><br> from the point you clicked.<br>");
                  } 
              });
+            
+//            var spotlightLocation = e.latlng;
+//             var spotlightMarker = L.circle(spotlightLocation, {
+//                 opacity: .5,
+//                 color: 'white',
+//                 radius: 500000
+//             });
+//             spotlightMarker.addTo(map);
+             
          });
+            
         
         map.on('click', function(e) {
              coalLayer.eachLayer(function(layer) {
@@ -317,13 +348,22 @@
                      layer.bindPopup("<b>"+layer.feature.properties.plant_name+"</b><br>"+"<b>Coal: </b> "+layer.feature.properties.source["Coal"].toLocaleString()+" MW<br>"+"This plant is <b>"+distance.toLocaleString()+" km</b><br> from the point you clicked.<br>");
                  } 
              });
+            
+//            var spotlightLocation = e.latlng;
+//             var spotlightMarker = L.circle(spotlightLocation, {
+//                 opacity: .5,
+//                 color: 'white',
+//                 radius: 500000
+//             });
+//             spotlightMarker.addTo(map);
+             
          });
         
         
         
         // Double Click Event
                 
-        
+        var dblClickLight;
         map.on('dblclick', function(e) {
              hydroLayer.eachLayer(function(layer) {
                  
@@ -342,6 +382,25 @@
                      layer.bindPopup("<b>"+layer.feature.properties.plant_name+"</b><br>"+"<b>Hydro: </b> "+layer.feature.properties.source["Hydro"].toLocaleString()+" MW<br>"+"This plant is <b>"+distance.toLocaleString()+" km</b><br> from the point you clicked.<br>");
                  } 
              });
+            
+            if(map.hasLayer(dblClickLight)) {
+                map.removeLayer(dblClickLight);
+            }
+            
+            if(map.hasLayer(spotlightMarker)) {
+                map.removeLayer(spotlightMarker);
+            }
+            
+            var dblLocation = e.latlng;
+            dblClickLight = L.circle(dblLocation, 200000, {
+                 opacity: .8,
+                 color: 'white',
+                 stroke: false
+             });
+             dblClickLight.addTo(map);
+             dblClickLight.bringToBack();
+            
+            
          });
         
         map.on('dblclick', function(e) {
