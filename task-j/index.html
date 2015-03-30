@@ -174,19 +174,26 @@
                                 layer.feature.properties[norm])*100).toLocaleString());  
             
                 layer.on('mouseover', function() {
+                    this.setStyle({
+                        color: 'yellow'
+                    });
                     updateInfo(this);
                 });
                 
-                
-            
+                layer.on('mouseout', function() {
+                    this.setStyle({
+                        color: getColor(props[attribute]/
+                                        props[norm], breaks)
+                    });
+                });
             });
             
-        dataLayer.on('mouseover', function() {
-            $(".info").show();
-        });
-        dataLayer.on('mouseout', function() {
-            $(".info").hide();    
-        });
+            dataLayer.on('mouseover', function() {
+                $(".info").show();
+            });
+            dataLayer.on('mouseout', function() {
+                $(".info").hide();    
+            });
             
             updateLegend(breaks);
             
