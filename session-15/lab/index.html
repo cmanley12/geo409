@@ -50,13 +50,66 @@
         p {
             font-size: 1em;
             color: #001323;
-        }   
+        }
+        .legend {
+            padding: 6px 8px;
+            font-size: 1em;
+            background: rgba(75,75,75,0.8);
+            color: whitesmoke;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+            width: 160px;
+        }
+        .legend h3 {
+            font-size: 1.1em;
+            font-weight: bold;
+            line-height: 1em;
+            color: whitesmoke;
+            margin: 0;
+        }
+        .legend li {
+            list-style-type: none;
+            height: 22px;
+        }
+        .legend span {
+            width: 30px;
+            height: 20px;
+            float: left;
+            margin-right: 10px;
+        }
+        #ui-controls {
+            width: 176px;   
+            padding: 8px 15px 8px 15px;
+            background: rgba(75,75,75,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px; 
+            color: whitesmoke;
+        }
+        #ui-controls .min {
+            float: left;
+        }
+        #ui-controls .max {
+            float: right;
+        }
+            .year-slider {
+            width: 100%;
+        }
+        label {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
     </style>
 </head>
 
 <body>
     <h1>US Unemployment Rates: 2001-2013</h1>
     <div id='map'></div>
+    <div id="ui-controls">
+    <label><span class="min">2001</span><span class="max">2013</span>
+        <input type="range" min = "2001", max= "2013", 
+               value = "2001", step= "1", class="year-slider"></input>
+    </label>
+    </div>
     
     <script>
         
@@ -101,6 +154,36 @@
 
         });
         
+        // create a Leaflet control object and store a reference to it in a variable
+        var sliderControl = L.control({ position: 'bottomleft'} );
+
+        // when we add this control object to the map
+        sliderControl.onAdd = function(map) {
+
+            // select an existing DOM element with an id of "ui-controls"
+            var slider = L.DomUtil.get("ui-controls");
+
+                // when the user clicks on the slider element
+                L.DomEvent.addListener(slider, 'mousedown', function(e) { 
+
+                    // prevent the click event from bubbling up to the map
+                    L.DomEvent.stopPropagation(e); 
+
+                });
+
+            // return the slider from the onAdd method
+            return slider;
+        }
+
+        // add the control object containing our slider element to the map
+        sliderControl.addTo(map);
+        
+        $(".year-slider")
+            .on('input change', function() {
+                attribute = $(this).val();
+                updateMap();
+            });
+        
         function processData(states, data) {
             
             for (var state in states.features) {
@@ -116,6 +199,8 @@
 
             } // outer for loop is complete
             console.log(states);
+            drawLegend();
+            createSliderUI();
             drawMap(states);
 
         }
@@ -197,16 +282,33 @@
         
         function updateLegend(breaks) {
             
-            var legend = $('.legend').html();
+            var legend = $('.legend').html("<h3> % Unemployment: " + attribute + "</h3><ul>");
+            // console.log(legend);
+            
 
             for (var i = 0; i < breaks.length-1; i++) {
                 var color = getColor(breaks[i + 1], breaks);
+             //   console.log(color);
+             //   console.log(breaks);
                 legend.append('<li><span style="background:' + color + '"></span> ' +
                     (breaks[i]).toLocaleString() + ' &mdash; ' + 
                     (breaks[i + 1]).toLocaleString() + '</li>');
                 
             }
         legend.append("</ul>");
+        }
+        
+        function createSliderUI(){
+            // creating a function for the selection menu
+            var dataView = L.control({position: 'bottomleft'});
+            
+            dataView.onAdd = function(map) {
+
+                var controls = L.DomUtil.get('ui-controls');
+                return controls;
+            }
+
+        dataView.addTo(map);
         }
         
         
