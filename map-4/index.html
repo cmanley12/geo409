@@ -140,35 +140,35 @@
 
         });
         
-        // create a Leaflet control object and store a reference to it in a variable
-        var sliderControl = L.control({ position: 'bottomleft'} );
-
-        // when we add this control object to the map
-        sliderControl.onAdd = function(map) {
-
-            // select an existing DOM element with an id of "ui-controls"
-            var slider = L.DomUtil.get("ui-controls");
-
-                // when the user clicks on the slider element
-                L.DomEvent.addListener(slider, 'mousedown', function(e) { 
-
-                    // prevent the click event from bubbling up to the map
-                    L.DomEvent.stopPropagation(e); 
-
-                });
-
-            // return the slider from the onAdd method
-            return slider;
-        }
-
-        // add the control object containing our slider element to the map
-        sliderControl.addTo(map);
+//        // create a Leaflet control object and store a reference to it in a variable
+//        var sliderControl = L.control({ position: 'bottomleft'} );
+//
+//        // when we add this control object to the map
+//        sliderControl.onAdd = function(map) {
+//
+//            // select an existing DOM element with an id of "ui-controls"
+//            var slider = L.DomUtil.get("ui-controls");
+//
+//                // when the user clicks on the slider element
+//                L.DomEvent.addListener(slider, 'mousedown', function(e) { 
+//
+//                    // prevent the click event from bubbling up to the map
+//                    L.DomEvent.stopPropagation(e); 
+//
+//                });
+//
+//            // return the slider from the onAdd method
+//            return slider;
+//        }
+//
+//        // add the control object containing our slider element to the map
+//        sliderControl.addTo(map);
         
-        $(".year-slider")
-            .on('input change', function() {
-                attribute = $(this).val();
-                updateMap();
-            });
+//        $(".year-slider")
+//            .on('input change', function() {
+//                attribute = $(this).val();
+//                updateMap();
+//            });
         
         function processData(counties, data) {
             
@@ -178,7 +178,6 @@
     
                 console.log(props);
                 for(var d in data.data) {
-                    console.log(data.data.length);
                     if(props.CNTY == data.data[d].COUNTY_FIP) {
                         
                         counties.features[county].properties = data.data[d]; 
