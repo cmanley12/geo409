@@ -98,20 +98,33 @@
             font-size: 1.1em;
             font-weight: bold;
         }
+        .info {
+            padding: 6px 8px;
+            font-size: 1em;
+            background: whitesmoke;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+            text-align: right;
+            margin: 0;
+        }
     </style>
 </head>
 
 <body>
-    <h1>Kentucky Unemployment Rates: 2001-2013</h1>
+    <h1>Kentucky Unemployment Rates: 2000-2013</h1>
     <div id='map'></div>
     <div id="ui-controls">
-    <label><span class="min">2001</span><span class="max">2013</span>
-        <input type="range" min = "2001", max= "2013", 
-               value = "2001", step= "1", class="year-slider"></input>
+    <label><span class="min">2000</span><span class="max">2013</span>
+        <input type="range" min = "2000", max= "2013", 
+               value = "2000", step= "1", class="year-slider"></input>
     </label>
     </div>
     
     <script>
+        
+        var Thunderforest_Outdoors = L.tileLayer('http://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png', {
+	       attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        });
         
         var options = {
             center: [38.2, -86],
@@ -123,8 +136,10 @@
         }
         
         var map = L.map('map', options);
-        var dataLayer;
-        var attribute = 2001;
+        map.addLayer(Thunderforest_Outdoors);
+        
+        var dataLayer,
+            attribute = 2000;
         
         $.getJSON("ky-counties.json", function(counties) {
 
@@ -140,35 +155,35 @@
 
         });
         
-//        // create a Leaflet control object and store a reference to it in a variable
-//        var sliderControl = L.control({ position: 'bottomleft'} );
-//
-//        // when we add this control object to the map
-//        sliderControl.onAdd = function(map) {
-//
-//            // select an existing DOM element with an id of "ui-controls"
-//            var slider = L.DomUtil.get("ui-controls");
-//
-//                // when the user clicks on the slider element
-//                L.DomEvent.addListener(slider, 'mousedown', function(e) { 
-//
-//                    // prevent the click event from bubbling up to the map
-//                    L.DomEvent.stopPropagation(e); 
-//
-//                });
-//
-//            // return the slider from the onAdd method
-//            return slider;
-//        }
-//
-//        // add the control object containing our slider element to the map
-//        sliderControl.addTo(map);
+        // create a Leaflet control object and store a reference to it in a variable
+        var sliderControl = L.control({ position: 'bottomleft'} );
+
+        // when we add this control object to the map
+        sliderControl.onAdd = function(map) {
+
+            // select an existing DOM element with an id of "ui-controls"
+            var slider = L.DomUtil.get("ui-controls");
+
+                // when the user clicks on the slider element
+                L.DomEvent.addListener(slider, 'mousedown', function(e) { 
+
+                    // prevent the click event from bubbling up to the map
+                    L.DomEvent.stopPropagation(e); 
+
+                });
+
+            // return the slider from the onAdd method
+            return slider;
+        }
+
+        // add the control object containing our slider element to the map
+        sliderControl.addTo(map);
         
-//        $(".year-slider")
-//            .on('input change', function() {
-//                attribute = $(this).val();
-//                updateMap();
-//            });
+        $(".year-slider")
+            .on('input change', function() {
+                attribute = $(this).val();
+                updateMap();
+            });
         
         function processData(counties, data) {
             
@@ -178,7 +193,7 @@
     
                 console.log(props);
                 for(var d in data.data) {
-                    if(props.CNTY == data.data[d].COUNTY_FIP) {
+                    if(props.COUNTY_FIP == data.data[d].CNTY) {
                         
                         counties.features[county].properties = data.data[d]; 
                         break;
@@ -189,6 +204,7 @@
             drawLegend();
             createSliderUI();
             drawMap(counties);
+            drawInfo();
             console.log(counties);
 
         }
@@ -206,8 +222,28 @@
                 }
         }).addTo(map);
             
+            dataLayer.eachLayer(function(layer) {
+                
+                layer.bindPopup("<b>"+layer.feature.properties["NAME"]+" County</b></br>" + layer.feature.properties[attribute] + "%");
+            
+            layer.on('mouseover', function() {
+                    this.setStyle({
+                        color: 'yellow'
+                    });
+                    updateInfo(this);
+                    $('.info').show();
+                });
+                
+                layer.on('mouseout', function() {
+                    this.setStyle({
+                        color: '#383838'
+                    });
+                    $('.info').hide();
+                });
+            
         updateMap();
             
+        });
         }
         
         function updateMap() {
@@ -217,6 +253,8 @@
                 layer.setStyle({
                     fillColor: getColor(Number(layer.feature.properties[attribute]), breaks)
                 });
+                
+                layer.bindPopup("<b>"+layer.feature.properties["NAME"]+" County</b></br>" + layer.feature.properties[attribute] + "%");
                 
             });
             
@@ -270,21 +308,20 @@
         
         function updateLegend(breaks) {
             
-            var legend = $('.legend').html("<h3> % Unemployment: " + attribute + "</h3><ul>");
-            // console.log(legend);
+                var legend = $('.legend').html("<h3> % Unemployment: " + attribute + "</h3><ul>");
+                // console.log(legend);
             
 
-            for (var i = 0; i < breaks.length-1; i++) {
-                var color = getColor(breaks[i + 1], breaks);
-             //   console.log(color);
-             //   console.log(breaks);
-                legend.append('<li><span style="background:' + color + '"></span> ' +
-                    (breaks[i]).toLocaleString() + ' &mdash; ' + 
-                    (breaks[i + 1]).toLocaleString() + '</li>');
-                
-            }
-        legend.append("</ul>");
-        }
+                for (var i = 0; i < breaks.length-1; i++) {
+                    var color = getColor(breaks[i + 1], breaks);
+                //   console.log(color);
+                //   console.log(breaks);
+                    legend.append('<li><span style="background:' + color + '"></span> ' +
+                        (breaks[i]).toLocaleString() + ' &mdash; ' + 
+                        (breaks[i + 1]).toLocaleString() + '</li>');
+                    }
+            legend.append("</ul>");  
+        };
         
         function createSliderUI(){
             // creating a function for the selection menu
@@ -297,6 +334,31 @@
             }
 
         dataView.addTo(map);
+        }
+        
+        function drawInfo() {
+
+            var info = L.control({position: 'topright'});
+
+            info.onAdd = function(map) {
+
+                var div = L.DomUtil.create('div', 'info');
+
+                return div;  
+            }
+            // create an info tag that pops up in the top right corner by county
+            info.addTo(map);
+            $('.info').hide();
+            // hides the box so it doesn't show up too early
+        }
+        
+        function updateInfo(layer) {
+
+            var props = layer.feature.properties;
+
+            var html = "<h3>"+props['NAME']+" County</h3>"+"2000: "+props[2000]+"<br>"+"2001: "+props[2001]+"<br>"+"2002: "+props[2002]+"<br>"+"2003: "+props[2003]+"<br>"+"2004: "+props[2004]+"<br>"+"2005: "+props[2005]+"<br>"+"2006: "+props[2006]+"<br>"+"2007: "+props[2007]+"<br>"+"2008: "+props[2008]+"<br>"+"2009: "+props[2009]+"<br>"+"2010: "+props[2010]+"<br>"+"2011: "+props[2011]+"<br>"+"2012: "+props[2012]+"<br>"+"2013: "+props[2013];
+
+            $(".info").html(html);
         }
 
 
