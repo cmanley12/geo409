@@ -71,7 +71,6 @@
             font-size: .85em;
             color: whitesmoke;
         }
-        }
         .legend {
             padding: 6px 8px;
             font-size: 1em;
@@ -91,6 +90,7 @@
         .legend li {
             list-style-type: none;
             height: 22px;
+            color: whitesmoke;
         }
         .legend span {
             width: 30px;
@@ -194,6 +194,20 @@
         
         var dataLayer,
             attribute = 2000;
+        
+        $.getJSON("us-states.json", function(data) {
+            dataLayer = L.geoJson(data, {
+                 style: function(feature) {
+                    return {
+                            color: "black",
+                            weight: 2,
+                            fillOpacity: 1,
+                            fillColor: '#1f78b4'
+                    };
+                }
+                
+            }).addTo(map);
+        });
         
         $.getJSON("us-states.json", function(states) {
 
