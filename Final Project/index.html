@@ -160,7 +160,6 @@
     
     
     
-    <script src="us-states.json"></script>
     <div id='map'></div>
     <div id="ui-controls">
     </div>
@@ -184,6 +183,7 @@
         
         map.addLayer(tiles);
         
+        var normData;
         
         
         
@@ -192,35 +192,36 @@
         
         
         
-        var dataLayer,
-            attribute = 2000;
         
-        $.getJSON("us-states.json", function(data) {
-            dataLayer = L.geoJson(data, {
-                 style: function(feature) {
-                    return {
-                            color: "black",
-                            weight: 2,
-                            fillOpacity: 1,
-                            fillColor: '#1f78b4'
-                    };
-                }
-                
-            }).addTo(map);
-        });
+//        var dataLayer,
+//            attribute = 2000,
+//            numerator = ,
+//            denominator = ;
+        
         
         $.getJSON("us-states.json", function(states) {
 
-            Papa.parse('cotton-exports.csv', {
-                download: true,
-                header: true,
-                complete: function(data) {
-                    
-                    processData(states, data);
+            var files = ["cotton-exports.csv", "crops-exports.csv", "animal-exports.csv", "total-ag-exports.csv"];
+            var allResults = [];
 
-                }
-            }); 
-
+            for (var i = 0; i < files.length; i++)
+            {
+                Papa.parse(files[i], {
+                    download: true,
+                    header: true,
+                    skipEmptyLines: true,
+                    error: function(err, file, inputElem, reason) { /* handle*/ },
+                    complete: function(results) {
+                        allResults.push(results);
+                        if (allResults.length == files.length)
+                        {
+                            // Do whatever you need to do
+                            console.log(allResults);
+                            processData(states,allResults);
+                        }
+                    }
+                });
+            }
         });
         
         
@@ -250,25 +251,82 @@
         
         function processData(states, data) {
             
-            for (var state in states.features) {
-
-                var props = states.features[state].properties;
-    
-                console.log(props);
-                for(var d in data.data) {
-                    if(props.POSTAL == data.data[d].postal) {
+            console.log(states, data);
+            
+            for(var d in data) {
+              normData = data[3];
+                for (var state in states.features) {
+                    
+                    var props = states.features[state].properties;
+                    
+                    for (var d2 in data[d].data){
+//                        if(d == 0) {
+//                            props['cotton'] = {};
+//                            if(props.POSTAL == data[d].data[d2].postal){  
+//                                for (var d3 in data[d].data[d2]){
+//                                      props['cotton']['mug'] = 5;
+//                                    //console.log("attribute value:", d3, data[d].data[d2][d3]);
+//                                    for(var normD in data[3].data){
+//                                       
+//                                       if(props.POSTAL == data[3].data[normD].postal){
+//                                        
+//                                          
+//                                          //props['cotton'].d3 = Number(data[d].data[d2][d3])/Number(data[3].data[normD][d3]); 
+//                                       }
+//                                           
+//                                    }
+//                                }
+//                                 
+//                            }
+//                        }
+                        if(d == 1) {
+                            if(props.POSTAL == data[d].data[d2].postal){  
+                                props['crops'] = data[d].data[d2];     
+                            }
+                        }
+                        if(d == 3) {
+                            if(props.POSTAL == data[d].data[d2].postal){  
+                                props['norm'] = data[d].data[d2];     
+                            }
+                        }
+                       
+                       
                         
-                        states.features[state].properties = data.data[d]; 
-                        break;
-                    }  
-                } // inner for loop is complete
-
-            } // outer for loop is complete
-            drawLegend();
-            createSliderUI();
-            drawMap(states);
-            drawInfo();
+                    }
+                   
+                       
+                    
+                }
+                
+            }
+            
             console.log(states);
+            
+       
+            
+//            for (var state in states.features) {
+//
+//               
+//    
+//                console.log(props);
+//                for(var d in data.data) {
+//                    if(props.POSTAL == data.data[d].postal) {
+//                        
+//                        states.features[state].properties = data.data[d]; 
+//                        break;
+//                    }  
+//                } // inner for loop is complete
+//
+//            } // outer for loop is complete
+            
+            
+            
+            
+//            drawLegend();
+//            createSliderUI();
+//            drawMap(states);
+//            drawInfo();
+//            console.log(states);
 
         }
         
@@ -319,6 +377,7 @@
             dataLayer.eachLayer(function(layer) {
                 layer.setStyle({
                     fillColor: getColor(Number(layer.feature.properties[attribute]), breaks)
+                    //  fillColor: getColor(Number(layer.feature.properties['cotton'])/Number(layer.feature.properties['norm'])), breaks)
                 });
                 
                 layer.bindPopup("<b>"+layer.feature.properties["NAME"]+"</b></br>" + layer.feature.properties[attribute]);
@@ -336,6 +395,8 @@
 
                 var value = layer.feature.properties[attribute];
                 values.push(Number(value));
+                
+                // values.push(Number(value)/Number(normVal)
             });
             
             var breaks = ss.quantile(values, [0, 0.2, 0.4, 0.6, 0.8, 1]);
