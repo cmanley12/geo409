@@ -202,7 +202,7 @@
         $.getJSON("us-states.json", function(states) {
 
             var files = ["cotton-exports.csv", "crops-exports.csv", "animal-exports.csv", "total-ag-exports.csv"];
-            var allResults = [];
+            var allResults = {};
 
             for (var i = 0; i < files.length; i++)
             {
@@ -212,8 +212,9 @@
                     skipEmptyLines: true,
                     error: function(err, file, inputElem, reason) { /* handle*/ },
                     complete: function(results) {
-                        allResults.push(results);
-                        if (allResults.length == files.length)
+                        allResults[results.data[0].type] = results.data;
+                        console.log(allResults)
+                        if (Object.keys(allResults).length == files.length)
                         {
                             // Do whatever you need to do
                             console.log(allResults);
@@ -250,54 +251,21 @@
             });
         
         function processData(states, data) {
+            console.log(data)
             
-            console.log(states, data);
+            //console.log(states, data);
             
             for(var d in data) {
-              normData = data[3];
+             if(d != 'total') {
+                data[d][0]['2013'] / data['total'][0]['2013']
+             }
+            normData = data[3];
                 for (var state in states.features) {
                     
                     var props = states.features[state].properties;
-                    
-                    for (var d2 in data[d].data){
-//                        if(d == 0) {
-//                            props['cotton'] = {};
-//                            if(props.POSTAL == data[d].data[d2].postal){  
-//                                for (var d3 in data[d].data[d2]){
-//                                      props['cotton']['mug'] = 5;
-//                                    //console.log("attribute value:", d3, data[d].data[d2][d3]);
-//                                    for(var normD in data[3].data){
-//                                       
-//                                       if(props.POSTAL == data[3].data[normD].postal){
-//                                        
-//                                          
-//                                          //props['cotton'].d3 = Number(data[d].data[d2][d3])/Number(data[3].data[normD][d3]); 
-//                                       }
-//                                           
-//                                    }
-//                                }
-//                                 
-//                            }
-//                        }
-                        if(d == 1) {
-                            if(props.POSTAL == data[d].data[d2].postal){  
-                                props['crops'] = data[d].data[d2];     
-                            }
-                        }
-                        if(d == 3) {
-                            if(props.POSTAL == data[d].data[d2].postal){  
-                                props['norm'] = data[d].data[d2];     
-                            }
-                        }
-                       
-                       
-                        
+                    for (var d2 in data[d]){
                     }
-                   
-                       
-                    
                 }
-                
             }
             
             console.log(states);
@@ -322,11 +290,11 @@
             
             
             
-//            drawLegend();
-//            createSliderUI();
-//            drawMap(states);
-//            drawInfo();
-//            console.log(states);
+            drawLegend();
+            createSliderUI();
+            drawMap(states);
+            drawInfo();
+            console.log(states);
 
         }
         
