@@ -74,7 +74,7 @@
         .legend {
             padding: 6px 8px;
             font-size: 1em;
-            background: rgba(75,75,75,0.8);
+            background: rgba(75, 66, 152, 0.58);
             color: whitesmoke;
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
             border-radius: 5px;
@@ -101,7 +101,7 @@
         #ui-controls {
             width: 176px;   
             padding: 8px 15px 8px 15px;
-            background: rgba(75,75,75,0.8);
+            background: rgba(75, 66, 152, 0.58);
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
             border-radius: 5px; 
             color: whitesmoke;
@@ -193,10 +193,8 @@
         
         
         
-//        var dataLayer,
-//            attribute = 2000,
-//            numerator = ,
-//            denominator = ;
+        var dataLayer;
+        var attribute = 2000;
         
         
         $.getJSON("us-states.json", function(states) {
@@ -251,50 +249,29 @@
             });
         
         function processData(states, data) {
-            console.log(data)
-            
-            //console.log(states, data);
-            
+
             for(var d in data) {
-             if(d != 'total') {
-                data[d][0]['2013'] / data['total'][0]['2013']
-             }
-            normData = data[3];
+
                 for (var state in states.features) {
-                    
                     var props = states.features[state].properties;
+                    props[d] = {};
                     for (var d2 in data[d]){
+                        if(props.POSTAL == data[d][d2].postal){
+                             props[d] = data[d][d2];
+                        }
+                        
                     }
                 }
-            }
+                //} // end if
+            } // end outer for loop
             
-            console.log(states);
-            
-       
-            
-//            for (var state in states.features) {
-//
-//               
-//    
-//                console.log(props);
-//                for(var d in data.data) {
-//                    if(props.POSTAL == data.data[d].postal) {
-//                        
-//                        states.features[state].properties = data.data[d]; 
-//                        break;
-//                    }  
-//                } // inner for loop is complete
-//
-//            } // outer for loop is complete
-            
-            
-            
+           console.log(states);
+          
             
             drawLegend();
             createSliderUI();
             drawMap(states);
             drawInfo();
-            console.log(states);
 
         }
         
@@ -334,18 +311,28 @@
                     $('.info').hide();
                 });
             
-        updateMap();
+       
             
         });
+            
+             updateMap();
         }
         
         function updateMap() {
             var breaks = getClassBreaks();
-            
+            console.log(breaks);
             dataLayer.eachLayer(function(layer) {
+                
+                var attValue = layer.feature.properties.animals[attribute];
+                var normValue = layer.feature.properties.total[attribute];
+                attValue = attValue.replace(',','');
+                normValue = normValue.replace(',','');
+                
+                var value = 100*(attValue / normValue);
+                
                 layer.setStyle({
-                    fillColor: getColor(Number(layer.feature.properties[attribute]), breaks)
-                    //  fillColor: getColor(Number(layer.feature.properties['cotton'])/Number(layer.feature.properties['norm'])), breaks)
+                   
+                    fillColor: getColor(value, breaks)
                 });
                 
                 layer.bindPopup("<b>"+layer.feature.properties["NAME"]+"</b></br>" + layer.feature.properties[attribute]);
@@ -360,15 +347,20 @@
             var values = [];
             
             dataLayer.eachLayer(function(layer) {
-
-                var value = layer.feature.properties[attribute];
-                values.push(Number(value));
                 
-                // values.push(Number(value)/Number(normVal)
+                var attValue = layer.feature.properties.animals[attribute];
+                var normValue = layer.feature.properties.total[attribute];
+                attValue = attValue.replace(',','');
+                normValue = normValue.replace(',','');
+                
+                var value = 100*(attValue / normValue);
+            
+                values.push(value);
+                
             });
-            
+        
             var breaks = ss.quantile(values, [0, 0.2, 0.4, 0.6, 0.8, 1]);
-            
+            console.log(breaks);
             return breaks;
         
         }
@@ -405,7 +397,7 @@
         
         function updateLegend(breaks) {
             
-                var legend = $('.legend').html("<h3> Cotton Export: " + attribute + " (in millions of USD)</h3><ul>");
+                var legend = $('.legend').html("<h3> Animals Export: " + attribute + " (as a percentage of USD to total agricultural exports)</h3><ul>");
                 // console.log(legend);
             
 
