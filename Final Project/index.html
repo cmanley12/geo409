@@ -34,7 +34,7 @@
             margin: 0;
             color: whitesmoke;
             font-size: 1.5em;
-            background: rgba(75, 66, 152, 0.58);
+            background: rgba(75, 66, 152, 1);
             border-radius: 50px;
         }
         h2 {
@@ -46,7 +46,7 @@
             margin: 0;
             color: whitesmoke;
             font-size: 1.0em;
-            background: rgba(75, 66, 152, 0.58);
+            background: rgba(75, 66, 152, 1);
             border-radius: 50px;
         }
         #map {
@@ -151,18 +151,7 @@
         <p>Map authored by Cameron Manley</p>
         <p></p>
     </footer>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <div id='map'></div>
-    <div id="ui-controls">
-    </div>
+
     
     
     <script>
@@ -211,11 +200,11 @@
                     error: function(err, file, inputElem, reason) { /* handle*/ },
                     complete: function(results) {
                         allResults[results.data[0].type] = results.data;
-                        console.log(allResults)
+                       // console.log(allResults)
                         if (Object.keys(allResults).length == files.length)
                         {
                             // Do whatever you need to do
-                            console.log(allResults);
+                            //console.log(allResults);
                             processData(states,allResults);
                         }
                     }
@@ -265,7 +254,7 @@
                 //} // end if
             } // end outer for loop
             
-           console.log(states);
+         //  console.log(states);
           
             
             drawLegend();
@@ -293,8 +282,9 @@
         }).addTo(map);
             
             dataLayer.eachLayer(function(layer) {
-                
-                layer.bindPopup("<b>"+layer.feature.properties["NAME"]+" </b></br>" + layer.feature.properties[attribute]);
+                //console.log(layer);
+                var currValue = layer.feature.properties["animals"][2000];
+                layer.bindPopup("<b>"+layer.feature.properties["NAME"]+" </b></br>" + currValue);
             
             layer.on('mouseover', function() {
                     this.setStyle({
@@ -312,7 +302,6 @@
                 });
             
        
-            
         });
             
              updateMap();
@@ -320,22 +309,22 @@
         
         function updateMap() {
             var breaks = getClassBreaks();
-            console.log(breaks);
+            //console.log(breaks);
             dataLayer.eachLayer(function(layer) {
                 
-                var attValue = layer.feature.properties.animals[attribute];
+                var attValue = layer.feature.properties.animals[attribute].toLocaleString();
                 var normValue = layer.feature.properties.total[attribute];
                 attValue = attValue.replace(',','');
                 normValue = normValue.replace(',','');
                 
-                var value = 100*(attValue / normValue);
+                var value = 100*(attValue / normValue).toLocaleString();
                 
                 layer.setStyle({
                    
                     fillColor: getColor(value, breaks)
                 });
                 
-                layer.bindPopup("<b>"+layer.feature.properties["NAME"]+"</b></br>" + layer.feature.properties[attribute]);
+                layer.bindPopup("<b>"+layer.feature.properties["NAME"]+"</b></br>" + layer.feature.properties["animals"]);
                 
             });
             
@@ -348,19 +337,19 @@
             
             dataLayer.eachLayer(function(layer) {
                 
-                var attValue = layer.feature.properties.animals[attribute];
+                var attValue = layer.feature.properties.animals[attribute].toLocaleString();
                 var normValue = layer.feature.properties.total[attribute];
                 attValue = attValue.replace(',','');
                 normValue = normValue.replace(',','');
                 
-                var value = 100*(attValue / normValue);
+                var value = 100*(attValue / normValue).toLocaleString();
             
                 values.push(value);
                 
             });
         
             var breaks = ss.quantile(values, [0, 0.2, 0.4, 0.6, 0.8, 1]);
-            console.log(breaks);
+            //console.log(breaks);
             return breaks;
         
         }
@@ -426,7 +415,7 @@
         }
         
         function drawInfo() {
-
+            console.log("hi")
             var info = L.control({position: 'topright'});
 
             info.onAdd = function(map) {
@@ -442,14 +431,13 @@
         }
         
         function updateInfo(layer) {
-
+            console.log(layer);
             var props = layer.feature.properties;
 
             var html = "<h3>"+props['NAME']+"</h3>"+"2000: "+props[2000]+"<br>"+"2001: "+props[2001]+"<br>"+"2002: "+props[2002]+"<br>"+"2003: "+props[2003]+"<br>"+"2004: "+props[2004]+"<br>"+"2005: "+props[2005]+"<br>"+"2006: "+props[2006]+"<br>"+"2007: "+props[2007]+"<br>"+"2008: "+props[2008]+"<br>"+"2009: "+props[2009]+"<br>"+"2010: "+props[2010]+"<br>"+"2011: "+props[2011]+"<br>"+"2012: "+props[2012]+"<br>"+"2013: "+props[2013];
 
             $(".info").html(html);
         }
-    
     
     
     
